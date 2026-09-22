@@ -12,12 +12,8 @@ random.seed(42)
 #3. identifico los datos que debo simular
 #id (texto (UUID)) 
 # nombre (texto)
-# nit (texto)
-# sector (texto) seleccionable por el usuario
-# contacto (texto)
 # correo (texto)
-# telefono (texto)
-# activa (booleano)
+
 
 #4. identifico los datos o el dato que sea un selector
 ROLES=["ADMIN","EMPRESA","PARTICIPANTE"]
@@ -33,11 +29,7 @@ def generar_datos_limpios(numeros_datos=FILAS):
         filas.append({
             "id",
             "nombre",
-            "nit",
-            "sector",
-            "contacto",
             "correo",
-            "telefono",
-            "activa"
+            
         })
     

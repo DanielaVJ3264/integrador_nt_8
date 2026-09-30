@@ -24,7 +24,8 @@ random.seed(42)
 #  dias_max_respuesta (entero).
 
 #identificonlos datos o el dato que sea un selector
-ESTADOS = ["PENDIENTE","ACEPTADO","RECHAZADO"]
+# 4. identifico los datos o el dato que sea un selector
+NIVELES=["DIAS"]
 
 #5 defino mi DATASET
 FILAS=200
@@ -34,8 +35,27 @@ def generar_datos_limpios(numeros_datos=FILAS):
     filas=[]
     for _ in range(numeros_datos):
         filas.append({
-            "id",
-            "nombre",
-            "nivel",
-            "dias_max_respuesta"
+            "id":str(uuid.uuid4()),
+            "nombre":random.choice(list(NIVELES.keys())),
+            "nivel":NIVELES[nombre],
+            "dias_max_respuesta":DIAS[nivel],
         })
+
+# Ensuciar los datos 
+ 
+#1, Crear una funcion para definir porcentajes de error 
+def generar_muestra(datos,porcentaje):
+    return datos.sample(fraccion=porcentaje,random_statet=random.randint(0,999)).index
+
+#2. Crear una funcion para escribir mal un texto
+def escribir_mal(texto):
+    variantes=[texto.lower(),f"{texto.tittle()}",texto.capitalize()]
+    return random.choice(variantes)
+
+#3. Convertir booleanos en texto
+def convertir_booleano_texto(valor):
+    if valor:
+        return random.choices(["SI","1"])
+    return random.choice(["NO","0"])
+
+#nombre:  variantes: 10% 'ALTA', ' alta ', 'Alta'.

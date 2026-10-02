@@ -54,7 +54,7 @@ def generar_muestra(datos,porcentaje):
 
 #2. Crear una funcion para escribir mal un texto
 def escribir_mal(texto):
-    variantes=[texto.lower(),f"{texto.tittle()}",texto.capitalize()]
+    variantes=[texto.lower(),f"{texto.title()}",texto.capitalize()]
     return random.choice(variantes)
 
 #3. Convertir booleanos en texto
@@ -72,15 +72,14 @@ def ensuciar(datos_df):
     datos_df.loc[filas_elegidas,"nombre"]=" " + datos_df.loc[filas_elegidas,"nombre"]+" "
 
     filas_elegidas=generar_muestra(datos_df,0.08)
-    datos_df.loc[filas_elegidas,"nombre"]=datos_df.loc
-    [filas_elegidas,"nombre"].str.upper()
+    datos_df.loc[filas_elegidas,"nombre"]=datos_df.loc[filas_elegidas,"nombre"].str.upper()
 
     #correo: 12% este en mayusculas y el 5% sin el @ y el 4% en none 
     filas_elegidas=generar_muestra(datos_df,0.12)
     datos_df.loc[filas_elegidas,"correo"]= datos_df.loc[filas_elegidas,"correo"].str.upper()
 
     filas_elegidas=generar_muestra(datos_df,0.05)
-    datos_df.loc[filas_elegidas,"correo"]=  datos_df.loc[filas_elegidas,"correo"].str.replace("@","" regex=False)
+    datos_df.loc[filas_elegidas,"correo"]=  datos_df.loc[filas_elegidas,"correo"].str.replace("@","", regex=False)
 
     filas_elegidas= generar_muestra(datos_df,0.04)
     datos_df.loc[filas_elegidas,"correo"]=datos_df    #=None
@@ -91,10 +90,10 @@ def ensuciar(datos_df):
 
     #fecha dos formatos mezclados (2026-03-15 14:30:00 y 15/03/2026 14:30)
     iso=datos_df["fecha_registro"].dt.strftime("%Y-%m-%d %H:%M:%S")
-    latino=datos_df["fecha_registro"].dt.strfime("%d/m/%Y %H:%M")
+    latino=datos_df["fecha_registro"].dt.strftime("%d/%m/%Y %H:%M")
     datos_df["fecha_registro"]=iso
     filas_elegidas=generar_muestra(datos_df,0.4)
-    datos_df.loc[filas_elegidas,"fecha_registro"]=latino.loc["filas_elegidas"]
+    datos_df.loc[filas_elegidas,"fecha_registro"]=latino.loc[filas_elegidas]
 
     #activo en ocaciones llega SI NO 1 o 0
     filas_elegidas=generar_muestra(datos_df,0.3)

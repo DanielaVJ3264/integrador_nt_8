@@ -1,5 +1,6 @@
 import random
 import uuid
+import pandas as pd
 from faker import Faker
 
 #1. Configurar el faker a la region que necesito 
@@ -31,13 +32,72 @@ def generar_datos_limpios(numero_datos=FILAS):
     for _ in range(numero_datos):
 
         filas.append({
-            "id",
-            "nombre",
-            "correo",
-            "contrasena_hash",
-            "rol",
-            "activo",
-            "fecha_registro"
 
+            "id":str(uuid.uuid4()),
+            "nombre":fake.name(),
+            "correo":fake.email(),
+            "contraseña_hash":fake.sha256(),
+            "rol":random.choice(ROLES),
+            "activo":random.choice([True,False]),
+            "fecha_registro":fake.date_time_between(start_date="-2y",end_date="now") 
 
         })
+        return filas
+    
+variable_noche=pd.DataFrame(generar_datos_limpios())
+
+#Ensuciar los datos 
+ 
+#1. Crear una funcion para definir porcentajes de error 
+def generar_muestra(datos,porcentaje):
+    return datos.sample(fraccion=porcentaje,random_statet=random.randint(0,999)).index
+
+#2. Crear una funcion para escribir mal un texto
+def escribir_mal(texto):
+    variantes=[texto.lower(),f"{texto.tittle()}", texto.capitalize]
+    return random.choice(variantes)
+
+#3. Convertir booleanos en texto
+def convertir_booleano_texto(valor):
+    if valor:
+        return random.choices(["SI","1"])
+    return random.choice(["NO","0"])
+
+#4:Funcion para ensuciar los datos
+def ensuciar(datos_df):
+    datos_df=datos_df.copy()
+
+    #nombre: 10% con espacios sobrantes, el 8% Mayuscula
+    filas_elegidas=generar_muestra(datos_df,0.10)
+    datos_df.loc[filas_elegidas,"nombre"]=" "+datos_df.loc[filas_elegidas,"nombre"]+" "
+
+
+    filas_elegidas=generar_muestra(datos_df,0.08)
+    datos_df.loc[filas_elegidas,"nombre"]=datos_df.loc[filas_elegidas,"nombre"].str.upper()
+
+    #correo:12% Mayusculas 5% sin el arriba 4% en None
+    filas_elegidas=generar_muestra(datos_df,0.12)
+    datos_df.loc[filas_elegidas"correo"]=datos_df.loc[filas_elegidas"correo"].str.upper()
+
+    filas_elegidas=generar_muestra(datos_df,0.05)
+    datos_df.loc[filas_elegidas,"correo"]=datos_df.loc[filas_elegidas,"correo"].str.replace("@","", regex=False)
+
+    filas_elegidas=generar_muestra(datos_df,0.04)
+    datos_df.loc[filas_elegidas,"correo"]=None
+
+    #rol variente de escritura (admin ADMIN Admin)
+    filas_elegidas=generar_muestra(datos_df,0.07)
+    datos_df.loc[filas_elegidas,"rol"]=datos_df.loc[filas_elegidas,"rol"].map(escribir_mal)
+
+    #fecha dos formatos mezclados (2026-03-15 14:30:00 y 15/03/2026 14:30)
+    iso=datos_df["fecha_registro"].dt.strftime("%Y-%m-%d %H:%M:%S")
+    latino=datos_df["fecha_registro"].dt.strtime("%d/%m/%Y %H:%M:")
+    datos_df["fechas_registro"]=iso
+    filas_elegidas=generar_muestra(datos_df,0.4)
+    datos_df.loc[filas_elegidas,"fechas_registro"]=latino.loc["filas_elegidas"]
+
+    #activo en ocaciones llega SI NO 1 o 0
+    filas_elegidas=generar_muestra(datos_df,0.30)
+    datos_df.loc[filas_elegidas,"activo"]=datos_df.loc[filas_elegidas,"activo"].map(convertir_booleano_texto)
+
+

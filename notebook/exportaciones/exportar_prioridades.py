@@ -5,12 +5,6 @@ from pathlib import Path
 #1. Configuracion (cambiar segun su tabla)
 NOMBRE_ENTIDAD="prioridades"
 CARPETA_PROYECTO=Path(__file__).resolve().parents[2]
-CARPETA_CRUDOS=CARPETA_PROYECTO/"datos"/"crudos"
-CARPETA_LIMPIOS=CARPETA_PROYECTO/"datos"/"limpios"
-CARPETA_REPORTES=CARPETA_PROYECTO/"datos"/"reportes"
-
-#2. Funciones genericas para elaborar los archivos  
-
 #2.1 CREAR LA CARPETA SI NO EXISTE
 
 def preparar_carpeta(carpeta):

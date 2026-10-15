@@ -27,7 +27,7 @@ random.seed(42)
 
 #4identifico los datos o el dato que sea un selector
 ESTADO = ["PENDIENTE", "ACEPTADO", "RECHAZADO", "EN_PROCESO", "FINALIZADO"]
-IDS_USUARIOS = IDS_USUARIOS = [
+IDS_USUARIOS = [
     "usuario1",
     "usuario2",
     "usuario3",
@@ -139,7 +139,7 @@ random.seed(42)
 
 #4identifico los datos o el dato que sea un selector
 ESTADO = ["PENDIENTE", "ACEPTADO", "RECHAZADO", "EN_PROCESO", "FINALIZADO"]
-IDS_USUARIOS = IDS_USUARIOS = [
+IDS_USUARIOS = [
     "usuario1",
     "usuario2",
     "usuario3",
@@ -220,4 +220,6 @@ def ensuciar(datos_df):
         #5% de las filas repetidas tal cual (duplicados exactos).
         filas_elegidas = generar_muestra(datos_df, 0.05)
         datos_df = pd.concat([datos_df, datos_df.loc[filas_elegidas]], ignore_index=True)
+        #Rutina para convertir una lista de diccionarios en multiples fuentes de informacion 
+
         
